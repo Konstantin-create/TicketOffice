@@ -1,4 +1,6 @@
 from modules.tools import count_free_seats
+
+
 class Carriage:
     def __init__(self, name: str = None, price: int = -1, max_seats_quantity: int = -1, seats=None):
         if seats is None:
