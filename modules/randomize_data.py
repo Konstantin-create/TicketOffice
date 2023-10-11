@@ -21,10 +21,19 @@ class RandomData:
             )
 
             for j in range(random.randint(Config.CARRIAGE_MIN_QUANTITY, Config.CARRIAGE_MAX_QUANTITY)):
-                carriage_type = random.choices(self.carriages_types, self.carriages_weights, k=1)
+                carriage_type = random.choices(self.carriages_types, self.carriages_weights, k=1)[0]
                 routes[-1].train.carriages.append(
-
+                    carriage_type(
+                        seats=None
+                    )
                 )
+                for k in range(1, routes[-1].train.carriages[-1].max_seats_quantity+1):
+                    routes[-1].train.carriages[-1].seats.append(
+                        Seat(
+                            id=k,
+                            is_busy=random.choice([True, False])
+                        )
+                    )
 
         routes.sort(key=lambda x: (int(x.time.split(':')[0]), int(x.time.split(':')[1])))
         return routes
