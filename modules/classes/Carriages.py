@@ -1,11 +1,12 @@
 class Carriage:
-    def __init__(self):
-        self.name: str | None = None
-        self.price: int | None = None
-        self.max_quantity: int | None = None
+    def __init__(self, name: str = None, price: int = -1, max_seats_quantity: int = -1, seats: list = []):
+        self.name = name
+        self.price = price
+        self.max_seats_quantity = max_seats_quantity
+        self.seats = seats
 
     def __repr__(self):
-        return f'<Carriage: {self.name} | {self.price} | {self.max_quantity}>'
+        return f'<Carriage: {self.name} | {self.price} | {self.max_seats_quantity}>'
 
 
 class SeatCarriage(Carriage):
@@ -41,4 +42,6 @@ class FirstClassCarriage(Carriage):
 
 
 class Seat:
-    IS_BUSY: bool = False
+    def __init__(self, id: int = -1, is_busy: bool = False):
+        self.id = id
+        self.is_busy = is_busy
