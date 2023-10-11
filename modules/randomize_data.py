@@ -16,8 +16,9 @@ class RandomData:
                 Route(
                     id=random.randint(1000, 9999),
                     train=Train(),
-                    time=f'{random.randint(0, 23):02}:{random.randint(0, 59)}'
+                    time=f'{random.randint(0, 23):02}:{random.randint(0, 59):02}'
                 )
             )
 
+        routes.sort(key=lambda x: (int(x.time.split(':')[0]), int(x.time.split(':')[1])))
         return routes

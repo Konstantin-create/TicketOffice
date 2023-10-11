@@ -3,4 +3,4 @@ class Train:
         self.carriages: list = []
 
     def __repr__(self):
-        return f'Train: {len(self.carriages)}'
+        return f'Train: length - {len(self.carriages)}'
