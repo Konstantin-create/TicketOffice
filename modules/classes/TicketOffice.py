@@ -3,20 +3,17 @@ import npyscreen
 
 class TicketOffice(npyscreen.StandardApp):
     def onStart(self):
-        self.addForm("MAIN", MainForm, name="Hello Habr!")
+        self.addForm("MAIN", WelcomeForm)
 
 
-class MainForm(npyscreen.ActionForm):
+class WelcomeForm(npyscreen.Form):
     # Конструктор
     def create(self):
-        # Добавляем виджет TitleText на форму
-        self.title = self.add(npyscreen.TitleText, name="TitleText", value="Hello World!")
+        cols, _ = self.useable_space()
+        title_widget = self.add(npyscreen.TitleText, name="Добро пожаловать в систему покупки билетов!", rely=1, editable=False)
+        # title_widget.relx = int((cols - len(title_widget.value)) / 2)
 
     # переопределенный метод, срабатывающий при нажатии на кнопку «ok»
     def on_ok(self):
-        self.parentApp.setNextForm(None)
-
-    # переопределенный метод, срабатывающий при нажатии на кнопку «cancel»
-    def on_cancel(self):
-        self.title.value = "Hello World!"
+        self.parentApp.
 
