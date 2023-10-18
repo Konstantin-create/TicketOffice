@@ -118,9 +118,10 @@ class ChoseCarriage(npyscreen.Form):
 
     def afterEditing(self):
         global global_route_id
-        if not self.check_input():
-            npyscreen.notify_confirm(message=f"Произошла ошибка! Тип вагона должен быть числом, проверьте ввод",
-                                     title="Ошибка!")
-            self.parentApp.setNextForm(None)
+        if not self.check_input() or int(self.id_type.value.strip()) not in [1, 2, 3, 4]:
+            npyscreen.notify_confirm(
+                message=f"Произошла ошибка! Тип вагона должен быть числом от 1 до 4, проверьте ввод",
+                title="Ошибка!")
+            self.parentApp.setNextForm('THIRD')
         else:
             self.parentApp.setNextForm(None)
