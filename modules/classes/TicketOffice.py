@@ -76,4 +76,4 @@ class MyForm(npyscreen.Form):
                                      title="Ошибка!")
             self.parentApp.setNextForm('SECOND')
         else:
-            self.parentApp.setNexForm('THIRD')
+            self.parentApp.setNextForm('THIRD')
