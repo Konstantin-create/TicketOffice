@@ -44,8 +44,6 @@ class WelcomeForm(npyscreen.ActionForm):
 
 
 class MyForm(npyscreen.Form):
-    def afterEditing(self):
-        self.parentApp.setNextForm(None)
 
     def create(self):
         self.title = self.add(npyscreen.FixedText, value='Список маршрутов:', editable=False)
@@ -66,3 +64,16 @@ class MyForm(npyscreen.Form):
                  el.train.count_min_price()]
             )
         self.my_grid.values = data
+
+    def check_input(self):
+        value: str = self.get_id.value.strip()
+        return value.isdigit()
+
+    def afterEditing(self):
+        self.parentApp.setNextForm(None)
+        if not self.check_input():
+            npyscreen.notify_confirm(message=f"Произошла ошибка! Номер маршрута должен быть числом, проверьте ввод",
+                                     title="Ошибка!")
+            self.parentApp.setNextForm('SECOND')
+        else:
+            self.parentApp.setNexForm('THIRD')
