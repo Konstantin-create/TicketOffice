@@ -1,5 +1,6 @@
 import npyscreen
 from modules.randomize_data import RandomData
+from modules.classes.Carriages import *
 
 rand_data = RandomData().generate_routes()
 global_route_id: int = 0
@@ -85,10 +86,27 @@ class ChoseRoute(npyscreen.Form):
 class ChoseCarriage(npyscreen.Form):
     def create(self):
         self.title = self.add(npyscreen.FixedText, value='Выберите тип вагона:', editable=False)
-        self.route = self.add(npyscreen.FixedText, value=f'Номер отправления: {global_route_id}')
+        self.route_id = self.add(npyscreen.FixedText, value=f'Номер отправления: {global_route_id}', editable=False)
+        self.route_time = self.add(npyscreen.FixedText, value=f'Время отправления: {None}', editable=False)
+        self.route_carriage_title = self.add(npyscreen.FixedText, value='Билеты:', editable=False)
+        self.carriage_type1 = self.add(npyscreen.FixedText, editable=False)
+        self.carriage_type2 = self.add(npyscreen.FixedText, editable=False)
+        self.carriage_type3 = self.add(npyscreen.FixedText, editable=False)
+        self.carriage_type4 = self.add(npyscreen.FixedText, editable=False)
 
     def beforeEditing(self):
-        self.route.value = f'Номер отправления: {global_route_id}'
+        route = list(filter(lambda x: x.id == global_route_id, rand_data))
+        if route:
+            route = route[0]
+        else:
+            pass
+
+        self.route_id.value = f'Номер отправления: {global_route_id}'
+        self.route_time.value = f'Время отправления: {route.time}'
+        self.carriage_type1.value = f'1 - СИДЯЧИЕ: {route.train.count_free_seats(carriage_type=SeatCarriage)}/{SeatCarriage().max_seats_quantity}'
+        self.carriage_type2.value = f'2 - ПЛАЦКАРТ: {route.train.count_free_seats(carriage_type=EconomCarriage)}/{EconomCarriage().max_seats_quantity}'
+        self.carriage_type3.value = f'3 - КУПЕ: {route.train.count_free_seats(carriage_type=CoupeCarriage)}/{CoupeCarriage().max_seats_quantity}'
+        self.carriage_type4.value = f'4 - СВ: {route.train.count_free_seats(carriage_type=FirstClassCarriage)}/{FirstClassCarriage().max_seats_quantity}'
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
