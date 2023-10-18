@@ -1,10 +1,25 @@
 import npyscreen
+from modules.randomize_data import RandomData
+
+rand_data = RandomData().generate_routes()
 
 
 class TicketOffice(npyscreen.NPSAppManaged):
     def onStart(self):
         self.addForm("MAIN", WelcomeForm)
         self.addForm("SECOND", MyForm)
+
+
+class NumericInput(npyscreen.TitleText):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.value = ""
+
+    def translate_key(self, inp):
+        if inp in "0123456789" or inp == "KEY_BACKSPACE" or inp == "KEY_DELETE":
+            return inp
+        else:
+            return None
 
 
 class WelcomeForm(npyscreen.ActionForm):
@@ -36,10 +51,18 @@ class MyForm(npyscreen.Form):
         self.title = self.add(npyscreen.FixedText, value='Список маршрутов:', editable=False)
 
         self.my_grid = self.add(npyscreen.GridColTitles,
-                                name="My Table",
-                                col_titles=["Column 1", "Column 2", "Column 3"], rely=5)
+                                name="Список маршрутов",
+                                col_titles=["№", "Отправление", "Свободно мест", "Цена от"], rely=5,
+                                max_height=self.max_y - 10,
+                                )
+        self.get_id = self.add(NumericInput, name="Введите номер маршрута:", value="", editable=True)
 
-        data = [
-            [str(i), str(i * 2), str(i * 3)] for i in range(100)
-        ]
+        data = []
+        for el in rand_data:
+            data.append(
+                [el.id,
+                 el.time,
+                 el.train.count_free_seats(),
+                 el.train.count_min_price()]
+            )
         self.my_grid.values = data

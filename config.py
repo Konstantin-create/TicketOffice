@@ -1,9 +1,8 @@
 class Config:
     ROUTES_MAX_QUANTITY: int = 20
-    ROUTES_MIN_QUANTITY: int = 5
+    ROUTES_MIN_QUANTITY: int = 10
 
-    TRAIN_PER_ROUTE_MIN_QUANTITY: int = 5
-    TRAIN_PER_ROUTE_MAX_QUANTITY: int = 10
+    CARRIAGE_MIN_QUANTITY: int = 4
+    CARRIAGE_MAX_QUANTITY: int = 7
 
-    CARRIAGE_MIN_QUANTITY: int = 5
-    CARRIAGE_MAX_QUANTITY: int = 20
+    WAGON_OCCUPANCY: int = 0.8  # Шанс занятости

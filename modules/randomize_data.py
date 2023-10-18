@@ -11,7 +11,7 @@ class RandomData:
     def generate_routes(self) -> list:
         routes = []
 
-        for i in range(random.randint(Config.TRAIN_PER_ROUTE_MIN_QUANTITY, Config.TRAIN_PER_ROUTE_MAX_QUANTITY)):
+        for i in range(random.randint(Config.ROUTES_MIN_QUANTITY, Config.ROUTES_MAX_QUANTITY)):
             routes.append(
                 Route(
                     id=random.randint(1000, 9999),
@@ -31,7 +31,7 @@ class RandomData:
                     routes[-1].train.carriages[-1].seats.append(
                         Seat(
                             id=k,
-                            is_busy=random.choice([True, False])
+                            is_busy=random.choices([True, False], [Config.WAGON_OCCUPANCY, 1-Config.WAGON_OCCUPANCY])[0]
                         )
                     )
 
