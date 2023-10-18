@@ -2,12 +2,14 @@ import npyscreen
 from modules.randomize_data import RandomData
 
 rand_data = RandomData().generate_routes()
+global_route_id: int = 0
 
 
 class TicketOffice(npyscreen.NPSAppManaged):
     def onStart(self):
         self.addForm("MAIN", WelcomeForm)
-        self.addForm("SECOND", MyForm)
+        self.addForm("SECOND", ChoseRoute)
+        self.addForm("THIRD", ChoseCarriage)
 
 
 class NumericInput(npyscreen.TitleText):
@@ -43,7 +45,7 @@ class WelcomeForm(npyscreen.ActionForm):
         self.parentApp.setNextForm(None)
 
 
-class MyForm(npyscreen.Form):
+class ChoseRoute(npyscreen.Form):
 
     def create(self):
         self.title = self.add(npyscreen.FixedText, value='Список маршрутов:', editable=False)
@@ -70,10 +72,23 @@ class MyForm(npyscreen.Form):
         return value.isdigit()
 
     def afterEditing(self):
-        self.parentApp.setNextForm(None)
+        global global_route_id
+        global_route_id = int(self.get_id.value.strip())
         if not self.check_input():
             npyscreen.notify_confirm(message=f"Произошла ошибка! Номер маршрута должен быть числом, проверьте ввод",
                                      title="Ошибка!")
             self.parentApp.setNextForm('SECOND')
         else:
             self.parentApp.setNextForm('THIRD')
+
+
+class ChoseCarriage(npyscreen.Form):
+    def create(self):
+        self.title = self.add(npyscreen.FixedText, value='Выберите тип вагона:', editable=False)
+        self.route = self.add(npyscreen.FixedText, value=f'Номер отправления: {global_route_id}')
+
+    def beforeEditing(self):
+        self.route.value = f'Номер отправления: {global_route_id}'
+
+    def afterEditing(self):
+        self.parentApp.setNextForm(None)
