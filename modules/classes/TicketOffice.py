@@ -74,12 +74,12 @@ class ChoseRoute(npyscreen.Form):
 
     def afterEditing(self):
         global global_route_id
-        global_route_id = int(self.get_id.value.strip())
         if not self.check_input():
             npyscreen.notify_confirm(message=f"Произошла ошибка! Номер маршрута должен быть числом, проверьте ввод",
                                      title="Ошибка!")
             self.parentApp.setNextForm('SECOND')
         else:
+            global_route_id = int(self.get_id.value.strip())
             self.parentApp.setNextForm('THIRD')
 
 
