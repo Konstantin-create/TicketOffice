@@ -27,11 +27,12 @@ class RandomData:
                         seats=None
                     )
                 )
-                for k in range(1, routes[-1].train.carriages[-1].max_seats_quantity+1):
+                for k in range(1, routes[-1].train.carriages[-1].max_seats_quantity + 1):
                     routes[-1].train.carriages[-1].seats.append(
                         Seat(
                             id=k,
-                            is_busy=random.choices([True, False], [Config.WAGON_OCCUPANCY, 1-Config.WAGON_OCCUPANCY])[0]
+                            is_busy=random.choices([True, False], [Config.WAGON_OCCUPANCY, 1 - Config.WAGON_OCCUPANCY])[
+                                0]
                         )
                     )
 
