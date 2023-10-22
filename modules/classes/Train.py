@@ -19,7 +19,7 @@ class Train:
             for i in range(len(carriage.seats)):
                 if not carriage.seats[i].is_busy:
                     carriage.seats[i].is_busy = True
-                    return carriage, i
+                    return [carriage, i]
         return None
 
     def __repr__(self):

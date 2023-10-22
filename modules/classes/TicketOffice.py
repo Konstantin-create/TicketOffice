@@ -140,7 +140,7 @@ class ChoseCarriage(npyscreen.Form):
                 int(self.id_type.value.strip()) - 1]
 
             carriage_bought = train.buy_ticket(carriage_type)
-            if train.count_free_seats(carriage_type) == 0 or not carriage_bought:
+            if train.count_free_seats(carriage_type) + 1 == 0 or carriage_bought is None:
                 npyscreen.notify_confirm(
                     message="Произошла ошибка! Места в этом типе вагонов закончились, выберете другой!",
                     title="Ошибка!")
@@ -163,9 +163,13 @@ class ConfirmForm(npyscreen.Form):
                               rely=5)
 
     def beforeEditing(self):
+        try:
+            num = random.randint(1, chosen_ticket['route'].train.count_free_seats(type(chosen_ticket['carriage'])))
+        except:
+            num = 1
         self.table.values = [
             [
-                random.randint(1, chosen_ticket['route'].train.count_free_seats(type(chosen_ticket['carriage']))),
+                num,
                 chosen_ticket['route'].id,
                 chosen_ticket['route'].time,
                 chosen_ticket['route'].train.carriages.index(chosen_ticket['carriage']) + 1,
