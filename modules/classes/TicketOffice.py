@@ -1,9 +1,16 @@
+import random
+
 import npyscreen
 from modules.randomize_data import RandomData
 from modules.classes.Carriages import *
 
 rand_data = RandomData().generate_routes()
 global_route_id: int = 0
+chosen_ticket = {
+    'route': None,
+    'carriage': None,
+    'seat_num': None
+}
 
 
 class TicketOffice(npyscreen.NPSAppManaged):
@@ -11,6 +18,7 @@ class TicketOffice(npyscreen.NPSAppManaged):
         self.addForm("MAIN", WelcomeForm)
         self.addForm("SECOND", ChoseRoute)
         self.addForm("THIRD", ChoseCarriage)
+        self.addForm("FOURTH", ConfirmForm)
 
 
 class NumericInput(npyscreen.TitleText):
@@ -117,11 +125,54 @@ class ChoseCarriage(npyscreen.Form):
         return value.isdigit()
 
     def afterEditing(self):
-        global global_route_id
+        global global_route_id, chosen_ticket
+
+        route = list(filter(lambda x: x.id == global_route_id, rand_data))[0]
+        train = route.train
+
         if not self.check_input() or int(self.id_type.value.strip()) not in [1, 2, 3, 4]:
             npyscreen.notify_confirm(
                 message=f"Произошла ошибка! Тип вагона должен быть числом от 1 до 4, проверьте ввод",
                 title="Ошибка!")
             self.parentApp.setNextForm('THIRD')
         else:
-            self.parentApp.setNextForm(None)
+            carriage_type = [SeatCarriage, EconomCarriage, CoupeCarriage, FirstClassCarriage][
+                int(self.id_type.value.strip()) - 1]
+
+            carriage_bought = train.buy_ticket(carriage_type)
+            if train.count_free_seats(carriage_type) == 0 or not carriage_bought:
+                npyscreen.notify_confirm(
+                    message="Произошла ошибка! Места в этом типе вагонов закончились, выберете другой!",
+                    title="Ошибка!")
+                self.parentApp.setNextForm('THIRD')
+                return
+
+            chosen_ticket = {'route': route, 'carriage': carriage_bought[0], 'seat_num': carriage_bought[1]}
+            self.parentApp.setNextForm("FOURTH")
+
+
+class ConfirmForm(npyscreen.Form):
+    def create(self):
+        self.title = self.add(npyscreen.FixedText, value='Подтвердите покупку билета:', editable=False)
+
+        self.table = self.add(npyscreen.GridColTitles,
+                              col_titles=["№", "МАРШРУТ", "ОТПРАВЛЕНИЕ", "ВАГОН", "МЕСТО", "ЦЕНА"],
+                              columns=6,
+                              select_whole_line=True,
+                              max_height=10,
+                              rely=5)
+
+    def beforeEditing(self):
+        self.table.values = [
+            [
+                random.randint(1, chosen_ticket['route'].train.count_free_seats(type(chosen_ticket['carriage']))),
+                chosen_ticket['route'].id,
+                chosen_ticket['route'].time,
+                chosen_ticket['route'].train.carriages.index(chosen_ticket['carriage']) + 1,
+                chosen_ticket['seat_num'] + 1,
+                chosen_ticket['carriage'].price
+            ]
+        ]
+
+    def afterEditing(self):
+        self.parentApp.setNextForm('MAIN')
