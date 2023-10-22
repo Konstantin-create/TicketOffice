@@ -42,6 +42,9 @@ class WelcomeForm(npyscreen.ActionForm):
         self.add(npyscreen.FixedText, value='2 - Выберите тип билета', editable=False, relx=20)
         self.add(npyscreen.FixedText, value='ВНИМАНИЕ: таблицы можно скролить <page_up/page_down>', color="IMPORTANT",
                  relx=20, editable=False)
+        self.add(npyscreen.FixedText, value='ВНИМАНИЕ: Во избежание проблем запускать в полноэкранном режиме',
+                 color="IMPORTANT",
+                 relx=20, editable=False)
 
         self.OK_BUTTON_TEXT = 'Далее'
         self.CANCEL_BUTTON_TEXT = 'Закрыть'
