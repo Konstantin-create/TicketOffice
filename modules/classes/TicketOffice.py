@@ -50,7 +50,6 @@ class WelcomeForm(npyscreen.ActionForm):
         self.CANCEL_BUTTON_TEXT = 'Закрыть'
 
     def on_ok(self):
-        print('Next page')
         self.parentApp.setNextForm("SECOND")
 
     def on_cancel(self):
@@ -111,7 +110,7 @@ class ChoseCarriage(npyscreen.Form):
         self.carriage_type2 = self.add(npyscreen.FixedText, editable=False)
         self.carriage_type3 = self.add(npyscreen.FixedText, editable=False)
         self.carriage_type4 = self.add(npyscreen.FixedText, editable=False)
-        self.id_type = self.add(NumericInput, name="Введите тип вагона:", value="", editable=True, rely=50)
+        self.id_type = self.add(NumericInput, name="Введите тип вагона:", value="", editable=True)
 
     def beforeEditing(self):
         route = list(filter(lambda x: x.id == global_route_id, rand_data))[0]
