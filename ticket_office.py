@@ -2,6 +2,8 @@
 Launch file
 """
 
-from modules.tools.file_reader import *
+from modules.tools.load_data import DataLoader
 
-print(read_ini())
+loader = DataLoader()
+
+print(loader.load())

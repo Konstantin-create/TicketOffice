@@ -6,10 +6,11 @@ from modules.classes.Train import Train
 
 
 class Route:
-    def __init__(self, id: int = -1, train: Train | None = None, time: str = ''):
-        self.id = id
+    def __init__(self, number: int = -1, train: Train | None = None, route: list | None = None, time: str = ''):
+        self.number = number
         self.train = train
-        self.time = time  # todo: rewrite on datetime obj
+        self.route = route
+        self.time = time
 
     def __repr__(self):
-        return f'<Route: {self.id} | {self.train} | {self.time}>'
+        return f'<Route: {self.number} | {self.train} | {self.time}>'
