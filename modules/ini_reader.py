@@ -4,20 +4,15 @@ import configparser
 def read_ini():
     config = configparser.ConfigParser()
     config.read('config/Route.ini')
-    route_section = {}
-    train_section = {}
-    schedule_section = {}
+    routes = {
+
+    }
 
     for i in config['Route']:
-        route_section[i] = config['Route'][i]
+        routes[i] = {'route': config['Route'][i], 'train': None, 'schedule': None}
 
     for i in config['Train']:
-        train_section[i] = config['Train'][i]
+        routes[config['Train'][i]]['train'] = i
+        routes[config['Train'][i]]['schedule'] = config['Shedule'][i]
 
-    for i in config['Shedule']:
-        schedule_section[i] = config['Shedule'][i]
-
-    print(route_section)
-    print(train_section)
-    print(schedule_section)
-
+    print(routes)
