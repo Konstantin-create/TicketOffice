@@ -9,7 +9,7 @@ def read_ini() -> dict:
     }
 
     for i in config['Route']:
-        routes[i] = {'route': config['Route'][i], 'train': None, 'schedule': None}
+        routes[i] = {'route': [int(s) for s in config['Route'][i].split('-')], 'train': None, 'schedule': None}
 
     for i in config['Train']:
         routes[config['Train'][i]]['train'] = i
