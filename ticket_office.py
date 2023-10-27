@@ -2,8 +2,7 @@
 Launch file
 """
 
-from modules.tools.load_data import DataLoader
+from modules.classes.TicketOffice import TicketOffice
 
-loader = DataLoader()
-
-print(loader.load())
+tui = TicketOffice()
+tui.run()

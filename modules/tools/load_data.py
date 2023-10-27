@@ -26,18 +26,21 @@ class DataLoader:
                         )
                     )
 
-        print(train_id)
-        print(carriages)
-        print()
         return carriages
 
     def __load_train(self, train_id: int) -> Train:
-        return Train(carriages=self.__load_carriages(train_id))
+        return Train(number=train_id, carriages=self.__load_carriages(train_id))
 
     def __load_routes(self) -> None:
         for el in self.__ini_data:
             self.__routes.append(Route(train=self.__load_train(el['train']), route=el['route'], time=el['schedule']))
 
+    def __compare_data(self, item):
+        days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        day, time = item.time.split(';')[0].split()
+        return days.index(day)
+
     def load(self) -> list:
         self.__load_routes()
+        self.__routes.sort(key=self.__compare_data)
         return self.__routes
