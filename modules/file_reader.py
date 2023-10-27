@@ -43,5 +43,5 @@ def read_train(train_id) -> dict:
             'max_seats': train['CountSeatCarriages'][carriage_type],
             'price': train['PriceCarriages'][carriage_type]
         }
-        
+
     return data

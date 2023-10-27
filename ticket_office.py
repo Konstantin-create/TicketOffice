@@ -1,3 +1,3 @@
-from modules.ini_reader import *
+from modules.file_reader import *
 
 print(read_ini())
