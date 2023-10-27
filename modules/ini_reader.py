@@ -16,3 +16,16 @@ def read_ini() -> dict:
         routes[config['Train'][i]]['schedule'] = config['Shedule'][i]
 
     return routes
+
+
+def read_stations_conf() -> dict:
+    stations = {}
+
+    with open('config/Stations.conf') as file:
+        lines = file.readlines()
+
+    for line in lines:
+        data = line.split()
+        stations[int(data[0])] = data[1]
+
+    return stations
