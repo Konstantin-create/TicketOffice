@@ -1,4 +1,8 @@
-from modules.tools import count_free_seats
+"""
+Carriages and seat classes
+"""
+
+from modules.tools.seats_manager import count_free_seats
 
 
 class Carriage:

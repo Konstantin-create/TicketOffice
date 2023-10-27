@@ -1,3 +1,7 @@
+"""
+File to get info from files
+"""
+
 import configparser
 
 

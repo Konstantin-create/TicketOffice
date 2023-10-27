@@ -1,3 +1,8 @@
+"""
+Train class file
+"""
+
+
 class Train:
     def __init__(self):
         self.carriages: list = []
