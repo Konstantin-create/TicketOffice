@@ -1,7 +1,7 @@
 import configparser
 
 
-def read_ini():
+def read_ini() -> dict:
     config = configparser.ConfigParser()
     config.read('config/Route.ini')
     routes = {
@@ -15,4 +15,4 @@ def read_ini():
         routes[config['Train'][i]]['train'] = i
         routes[config['Train'][i]]['schedule'] = config['Shedule'][i]
 
-    print(routes)
+    return routes
