@@ -29,3 +29,19 @@ def read_stations_conf() -> dict:
         stations[int(data[0])] = data[1]
 
     return stations
+
+
+def read_train(train_id) -> dict:
+    train = configparser.ConfigParser()
+    train.read(f'config/Train{train_id}.ini')
+
+    data = {}
+
+    for carriage_type in train['CountCarriages']:
+        data[carriage_type] = {
+            'count_carriages': train['CountCarriages'][carriage_type],
+            'max_seats': train['CountSeatCarriages'][carriage_type],
+            'price': train['PriceCarriages'][carriage_type]
+        }
+        
+    return data
