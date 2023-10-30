@@ -4,8 +4,7 @@ Train class file
 
 
 class Train:
-    def __init__(self, number: int | None, carriages: list | None):
-        self.number = number
+    def __init__(self, carriages: list | None):
         self.carriages = carriages
 
     def count_min_price(self) -> int:
